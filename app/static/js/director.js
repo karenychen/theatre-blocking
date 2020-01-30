@@ -68,32 +68,37 @@ function addBlockToScreen(scriptText, startChar, endChar, actors, positions) {
 
 // Adding example script blocking
 // (the blocks should be removed from the screen when getting a script from the server)
-addBlockToScreen(
-  `That's it Claudius, I'm leaving!Fine! Oh..he left already..`,
-  0,
-  31,
-  ["Hamlet", "Claudius"],
-  [5, 2]
-);
-addBlockToScreen(
-  `That's it Claudius, I'm leaving!Fine! Oh..he left already..`,
-  32,
-  58,
-  ["Hamlet", "Claudius"],
-  ["", 3]
-);
-setScriptNumber("example");
+// addBlockToScreen(
+//   `That's it Claudius, I'm leaving!Fine! Oh..he left already..`,
+//   0,
+//   31,
+//   ["Hamlet", "Claudius"],
+//   [5, 2]
+// );
+// addBlockToScreen(
+//   `That's it Claudius, I'm leaving!Fine! Oh..he left already..`,
+//   32,
+//   58,
+//   ["Hamlet", "Claudius"],
+//   ["", 3]
+// );
+// setScriptNumber("example");
 
 //////////////
 // The two functions below should make calls to the server
 // You will have to edit these functions.
 
+// a helper function for checking validity of input
+function isNumeric(value) {
+  return /^-{0,1}\d+$/.test(value);
+}
+
 function getBlocking() {
   const scriptNumber = scriptNumText.value;
 
-  if (!parseInt(scriptNumber)) {
+  if (!isNumeric(scriptNumber)) {
     alert("Please enter a valid script number.");
-    console.log(parseInt(scriptNumber));
+    console.log(scriptNumber);
     return;
   }
 
@@ -147,6 +152,18 @@ function getBlocking() {
 }
 
 function changeScript() {
+  // first check if the inputs are valid
+  let scriptBlocks = getBlockingDetailsOnScreen();
+  for (let i = 0; i < scriptBlocks.length; i++) {
+    let actorBlocking = scriptBlocks[i].actors;
+    for (let j = 0; j < actorBlocking.length; j++) {
+      if (!isNumeric(actorBlocking[j][1]) && actorBlocking[j][1] != "") {
+        alert("Please enter valid position numbers.");
+        return;
+      }
+    }
+  }
+
   // You can make a POST call with all of the
   // blocking data to save it on the server
 

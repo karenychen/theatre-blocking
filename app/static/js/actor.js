@@ -45,6 +45,11 @@ function getExampleBlock() {
     });
 }
 
+// a helper function for checking validity of input
+function isNumeric(value) {
+  return /^-{0,1}\d+$/.test(value);
+}
+
 /* Write the code to get the blocking for a particular script and actor */
 function getBlocking() {
   // Remove any existing blocks
@@ -53,6 +58,12 @@ function getBlocking() {
   // Get the script and actor numbers from the text box.
   const scriptNumber = scriptNumText.value;
   const actorNumber = actorText.value;
+
+  if (!isNumeric(scriptNumber) || !isNumeric(actorNumber)) {
+    alert("Please enter a valid number.");
+    return;
+  }
+
   console.log(
     `Get blocking for script number ${scriptNumber} for actor ${actorNumber}`
   );
