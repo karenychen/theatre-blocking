@@ -140,7 +140,6 @@ function getBlocking() {
         );
       }
     })
-
     .catch(error => {
       // if an error occured it will be logged to the JavaScript console here.
       console.log("An error occured with fetch:", error);
