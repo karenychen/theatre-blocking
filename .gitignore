@@ -23,3 +23,5 @@ htmlcov/
 *,cover
 
 .vscode
+app/get-pip.py
+
