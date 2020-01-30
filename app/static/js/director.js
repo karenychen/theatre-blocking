@@ -90,6 +90,13 @@ setScriptNumber("example");
 
 function getBlocking() {
   const scriptNumber = scriptNumText.value;
+
+  if (!parseInt(scriptNumber)) {
+    alert("Please enter a valid script number.");
+    console.log(parseInt(scriptNumber));
+    return;
+  }
+
   setScriptNumber(scriptNumber);
   console.log(`Get blocking for script number ${scriptNumber}`);
 
@@ -99,6 +106,7 @@ function getBlocking() {
   // and use the functions above to add the elements to the browser window.
   // (similar to actor.js)
 
+  removeAllBlocks();
   const url = "/script/" + scriptNumber;
 
   // A 'fetch' AJAX call to the server.
@@ -110,10 +118,29 @@ function getBlocking() {
       // This is where the JSON result (jsonResult) from the server can be accessed and used.
       console.log("Result:", jsonResult);
       // Use the JSON to add all blocks to screen
-      for (let i = 0; i++; i < jsonResult.length) {
-        addBlockToScreen(...jsonResult[i]);
+
+      //   addBlockToScreen(
+      // 	`That's it Claudius, I'm leaving!Fine! Oh..he left already..`,
+      // 	32,
+      // 	58,
+      // 	["Hamlet", "Claudius"],
+      // 	["", 3]
+      //   );
+
+      const script = jsonResult[0];
+      const blocks = jsonResult[1];
+
+      for (let i = 0; i++; i < blocks.length) {
+        addBlockToScreen(
+          script,
+          blocks[i].start,
+          blocks[i].end,
+          blocks[i].actors,
+          blocks[i].positions === 0 ? "" : blocks[i].positions
+        );
       }
     })
+
     .catch(error => {
       // if an error occured it will be logged to the JavaScript console here.
       console.log("An error occured with fetch:", error);
@@ -129,8 +156,9 @@ function changeScript() {
   // The data we are going to send in our request
   // It is a Javascript Object that will be converted to JSON
   let data = {
-    scriptNum: getScriptNumber()
+    scriptNum: getScriptNumber(),
     // What else do you need to send to the server?
+    scriptBlocks: getBlockingDetailsOnScreen()
   };
 
   // Create the request constructor with all the parameters we need
