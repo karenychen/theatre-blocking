@@ -8,8 +8,8 @@ CORS(app)
 
 # This is your 'database' of scripts with their blocking info.
 # You can store python dictionaries in the format you decided on for your JSON
-   # parse the text files in script_data to create these objects - do not send the text
-   # files to the client! The server should only send structured data in the sallest format necessary.
+# parse the text files in script_data to create these objects - do not send the text
+# files to the client! The server should only send structured data in the sallest format necessary.
 scripts = []
 
 ### DO NOT modify this route ###
@@ -30,14 +30,14 @@ def example_block():
 ''' Modify the routes below accordingly to 
 parse the text files and send the correct JSON.'''
 
-## GET route for script and blocking info
+# GET route for script and blocking info
 @app.route('/script/<int:script_id>')
 def script(script_id):
     # right now, just sends the script id in the URL
     return jsonify(script_id)
 
 
-## POST route for replacing script blocking on server
+# POST route for replacing script blocking on server
 # Note: For the purposes of this assignment, we are using POST to replace an entire script.
 # Other systems might use different http verbs like PUT or PATCH to replace only part
 # of the script.
@@ -47,8 +47,6 @@ def addBlocking():
     return jsonify(request.json)
 
 
-
 if __name__ == "__main__":
     # Only for debugging while developing
     app.run(host='0.0.0.0', debug=True, port=os.environ.get('PORT', 80))
-
