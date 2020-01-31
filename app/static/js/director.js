@@ -68,21 +68,21 @@ function addBlockToScreen(scriptText, startChar, endChar, actors, positions) {
 
 // Adding example script blocking
 // (the blocks should be removed from the screen when getting a script from the server)
-addBlockToScreen(
-  `That's it Claudius, I'm leaving!Fine! Oh..he left already..`,
-  0,
-  31,
-  ["Hamlet", "Claudius"],
-  [5, 2]
-);
-addBlockToScreen(
-  `That's it Claudius, I'm leaving!Fine! Oh..he left already..`,
-  32,
-  58,
-  ["Hamlet", "Claudius"],
-  ["", 3]
-);
-setScriptNumber("example");
+// addBlockToScreen(
+//   `That's it Claudius, I'm leaving!Fine! Oh..he left already..`,
+//   0,
+//   31,
+//   ["Hamlet", "Claudius"],
+//   [5, 2]
+// );
+// addBlockToScreen(
+//   `That's it Claudius, I'm leaving!Fine! Oh..he left already..`,
+//   32,
+//   58,
+//   ["Hamlet", "Claudius"],
+//   ["", 3]
+// );
+// setScriptNumber("example");
 
 //////////////
 // The two functions below should make calls to the server
@@ -119,6 +119,7 @@ function formatPostBlocks(scriptBlocks) {
 }
 
 function getBlocking() {
+  removeAllBlocks();
   const scriptNumber = scriptNumText.value;
 
   if (!isNumeric(scriptNumber)) {
@@ -136,7 +137,6 @@ function getBlocking() {
   // and use the functions above to add the elements to the browser window.
   // (similar to actor.js)
 
-  removeAllBlocks();
   const url = "/script/" + scriptNumber;
 
   // A 'fetch' AJAX call to the server.
@@ -160,13 +160,13 @@ function getBlocking() {
       const script = jsonResult[0];
       const blocks = jsonResult[1];
 
-      for (let i = 0; i++; i < blocks.length) {
+      for (let i = 0; i < blocks.length; i++) {
         addBlockToScreen(
           script,
           blocks[i].start,
           blocks[i].end,
           blocks[i].actors,
-          blocks[i].positions === 0 ? "" : blocks[i].positions
+          blocks[i].positions
         );
       }
     })
