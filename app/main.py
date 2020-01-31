@@ -88,8 +88,8 @@ def script(script_id):
             print(scripts[i]["script_text"])
             print(scripts[i]["parts"])
             return jsonify([scripts[i]["script_text"], scripts[i]["parts"]])
-    return None
-    # abort(404)
+    # return None
+    abort(404)
 
 
 ## POST route for replacing script blocking on server
