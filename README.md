@@ -30,13 +30,14 @@ To stop/remove container:
 
 # Objective Statement
 
-The objective of our theatre blocking app is to improve the efficiency during the planning stage and rehearsals of a performance, by allowing directors to conveniently modify and access the blocking for all parts of the scripts。 It also allows actors to intuitively view the blockings for their own parts.
+The objective of our theatre blocking app is to improve the efficiency during the planning stage and rehearsals of a performance, by allowing directors to conveniently modify and access the blocking for all parts of the scripts. It also allows actors to intuitively view the blockings for their own parts.
 
 
 # Personas
 ### Leonardo (actor who plays Hamlet in *Hamlet*)
 #### Bio
 Leonado has been in the theatre industry for 2 years and was recently invited to play the role of Hamlet in one of Shakespeare's most famous plays. However, he finds it difficult to memorize Hamlet's role on stage due to the large number of soliliques in the play.
+
 Leonado wonders if there is a way to better visualize the movement of his role as he is going through his script.
 
 #### Goal
