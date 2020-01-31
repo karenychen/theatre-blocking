@@ -60,6 +60,7 @@ def load_scripts():
 
 ## overwrite a txt files
 
+
 ### DO NOT modify this route ###
 @app.route('/')
 def hello_world():
@@ -87,7 +88,7 @@ def script(script_id):
     for i in range(1, len(scripts)):
         if int(scripts[i]["script_num"]) == script_id:
             return jsonify([scripts[i]["script_text"], scripts[i]["parts"]])
-    # abort(404)
+    abort(404)
 
 
 ## POST route for replacing script blocking on server
@@ -97,10 +98,11 @@ def script(script_id):
 @app.route('/script', methods=['POST'])
 def addBlocking():
     # right now, just sends the original request json
+
     return jsonify(request.json)
 
 
 
 if __name__ == "__main__":
     # Only for debugging while developing
-    app.run(host='0.0.0.0', debug=True, port=os.environ.get('PORT', 8848))
+    app.run(host='0.0.0.0', debug=True, port=os.environ.get('PORT', 80))
