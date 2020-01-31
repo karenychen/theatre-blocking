@@ -1,0 +1,24 @@
+{
+  "scriptNum": "1",
+  "scriptBlocks": [
+    "That's it Claudius, I'm leaving!Fine! Oh..he left already..",
+    [
+      {
+        "start": "0",
+        "end": "31",
+        "actors": [
+          ["Hamlet", "5"],
+          ["Claudius", "2"]
+        ]
+      },
+      {
+        "start": "32",
+        "end": "58",
+        "actors": [
+          ["Hamlet", "6"],
+          ["Claudius", "1"]
+        ]
+      }
+    ]
+  ]
+}
