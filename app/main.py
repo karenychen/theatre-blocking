@@ -16,6 +16,7 @@ scripts = []
 
 
 def load_scripts():
+    scripts = []
     # parse actors.csv into a dictionary
     actors_file = open("./app/actors.csv")
     lines = actors_file.readlines()
@@ -91,6 +92,7 @@ def write_scripts():
                     line += "\n"
                     lines[counter] = line  # change part line
                     counter += 1
+                lines[counter - 1] = lines[counter - 1][:-1]
                 fw = open(directory_in_str + filename, "wt")
                 fw.writelines(lines)
                 fw.close()
@@ -139,10 +141,12 @@ def addBlocking():
     new_parts = request.json["scriptBlocks"][1]
 
     # load_scripts()
+    print(scripts)
 
     for i in range(1, len(scripts)):  # iterate over scripts and search for matching script
-        if scripts[i]["script_num"] == script_num:  # script number matches
-            parts = scripts[i]["parts"]
+        script = scripts[i]
+        if script["script_num"] == script_num:  # script number matches
+            parts = script["parts"]
             for j in range(len(new_parts)):  # iterater over new_parts and parts
                 actor_pos_lst = new_parts[j]["actors"]
                 # create and fill in new_actors and new_parts
@@ -155,6 +159,7 @@ def addBlocking():
                 parts[j]["actors"] = new_actors
                 parts[j]["positions"] = new_pos
     write_scripts()
+    print(scripts)
     return jsonify(request.json)
 
 
