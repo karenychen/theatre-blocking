@@ -94,7 +94,7 @@ function getBlocking() {
       const blocks = jsonResult[1];
       const actorIdMap = jsonResult[2];
       const actorName = actorIdMap[actorNumber];
-      let actorPosition = 0;
+      let actorPosition = "";
 
       for (let i = 0; i < blocks.length; i++) {
         let actors = blocks[i].actors;
