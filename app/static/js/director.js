@@ -90,21 +90,46 @@ function visualize() {
     return;
   }
   startVisualize(scriptBlocks);
+  setTimeout(() => {
+    clearPosition();
+  }, 2000 * scriptBlocks.length);
 }
 
 function startVisualize(scriptBlocks) {
+  clearPosition();
   for (let i = 0; i < scriptBlocks.length; i++) {
-    let blocks = scriptBlocks[i].actors;
-    for (let j = 0; j < blocks.length; j++) {
-      let actor = blocks[i][0];
-      let position = blocks[i][1];
-      setTimeout(showPosition(actor, position), 5000);
-    }
+    (function() {
+      let k = i;
+      let blocks = scriptBlocks[k].actors;
+      setTimeout(() => {
+        clearPosition();
+        showScriptLine(scriptBlocks[k].text);
+        for (let j = 0; j < blocks.length; j++) {
+          let actor = blocks[j][0];
+          let position = blocks[j][1];
+          showPosition(actor, position);
+        }
+      }, 2000 * k);
+    })();
   }
 }
 
+function showScriptLine(line) {
+  document.querySelector("#script-line").innerHTML = line;
+  console.log(line);
+}
+
+// show position of actors on the blocking visualization grids
 function showPosition(actor, position) {
   document.querySelector("#position" + position).innerHTML = actor;
+}
+
+function clearPosition() {
+  console.log("clear");
+  for (let i = 1; i <= 8; i++) {
+    document.querySelector("#position" + i).innerHTML = "";
+  }
+  document.querySelector("#script-line").innerHTML = "";
 }
 
 /* UI functions above */
@@ -166,6 +191,7 @@ function formatPostBlocks(scriptBlocks) {
 }
 
 function getBlocking() {
+  clearPosition();
   removeSuccess();
   removeAllBlocks();
   const scriptNumber = scriptNumText.value;
