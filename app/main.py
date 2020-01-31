@@ -86,9 +86,13 @@ def write_scripts():
                     line = str(counter - 3) + ". " + \
                         str(part["start"]) + ", " + str(part["end"])
                     for j in range(len(part["actors"])):
-                        line += ", " + \
-                            str(part["actors"][j]) + "-" + \
-                            str(part["positions"][j])
+                        if part["positions"][j] == "":
+                            line += ", " + \
+                                str(part["actors"][j]) + "-0"
+                        else: 
+                            line += ", " + \
+                                str(part["actors"][j]) + "-" + \
+                                str(part["positions"][j])
                     line += "\n"
                     lines[counter] = line  # change part line
                     counter += 1
