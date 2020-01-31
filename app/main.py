@@ -16,6 +16,7 @@ scripts = []
 
 
 def load_scripts():
+    # scripts = []
     # parse actors.csv into a dictionary
     actors_file = open("./app/actors.csv")
     lines = actors_file.readlines()
@@ -91,6 +92,7 @@ def write_scripts():
                     line += "\n"
                     lines[counter] = line  # change part line
                     counter += 1
+                lines[counter - 1] = lines[counter - 1][:-1]
                 fw = open(directory_in_str + filename, "wt")
                 fw.writelines(lines)
                 fw.close()
@@ -118,7 +120,8 @@ parse the text files and send the correct JSON.'''
 # GET route for script and blocking info
 @app.route('/script/<int:script_id>')
 def script(script_id):
-    load_scripts()
+    if scripts == []:
+        load_scripts()
     for i in range(1, len(scripts)):
         if int(scripts[i]["script_num"]) == script_id:
             return jsonify([scripts[i]["script_text"], scripts[i]["parts"], scripts[0]])
@@ -131,18 +134,13 @@ def script(script_id):
 # of the script.
 @app.route('/script', methods=['POST'])
 def addBlocking():
-    # content = request.get_json()
-    # script_num = content["scriptNum"]
-    # new_parts = content["scriptBlocks"][1]
-
     script_num = request.json["scriptNum"]
     new_parts = request.json["scriptBlocks"][1]
 
-    # load_scripts()
-
     for i in range(1, len(scripts)):  # iterate over scripts and search for matching script
-        if scripts[i]["script_num"] == script_num:  # script number matches
-            parts = scripts[i]["parts"]
+        script = scripts[i]
+        if script["script_num"] == script_num:  # script number matches
+            parts = script["parts"]
             for j in range(len(new_parts)):  # iterater over new_parts and parts
                 actor_pos_lst = new_parts[j]["actors"]
                 # create and fill in new_actors and new_parts
