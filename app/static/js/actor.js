@@ -89,10 +89,10 @@ function getBlocking() {
       const actorName = actorIdMap[actorNumber];
       let actorPosition = 0;
 
-      for (let i = 0; i++; i < blocks.length) {
+      for (let i = 0; i < blocks.length; i++) {
         let actors = blocks[i].actors;
         let positions = blocks[i].positions;
-        for (let j = 0; j++; j < actors.length) {
+        for (let j = 0; j < actors.length; j++) {
           if (actors[j] === actorName) {
             actorPosition = positions[j];
           }
