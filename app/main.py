@@ -131,12 +131,17 @@ def script(script_id):
 # of the script.
 @app.route('/script', methods=['POST'])
 def addBlocking():
-    script_num = request.json.script_num
-    new_parts = request.json.scriptBlocks[2]
+    # content = request.get_json()
+    # script_num = content["scriptNum"]
+    # new_parts = content["scriptBlocks"][1]
 
-    load_scripts()
+    script_num = request.json["scriptNum"]
+    new_parts = request.json["scriptBlocks"][1]
+
+    # load_scripts()
 
     for i in range(1, len(scripts)):  # iterate over scripts and search for matching script
+        print(scripts[i])
         if scripts[i]["script_num"] == script_num:  # script number matches
             parts = scripts[i]["parts"]
             for j in range(len(new_parts)):  # iterater over new_parts and parts
@@ -156,4 +161,4 @@ def addBlocking():
 
 if __name__ == "__main__":
     # Only for debugging while developing
-    app.run(host='0.0.0.0', debug=True, port=os.environ.get('PORT', 80))
+    app.run(host='0.0.0.0', debug=True, port=os.environ.get('PORT', 8848))
