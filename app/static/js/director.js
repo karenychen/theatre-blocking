@@ -81,6 +81,32 @@ function showNotFound() {
   document.querySelector("#feedback").setAttribute("style", "color: red");
 }
 
+function visualize() {
+  let scriptBlocks = getBlockingDetailsOnScreen();
+
+  // check if there are valid script blocking info on screen before visualization
+  if (scriptBlocks.length === 0) {
+    alert("Please get valid script blocking information before visualization.");
+    return;
+  }
+  startVisualize(scriptBlocks);
+}
+
+function startVisualize(scriptBlocks) {
+  for (let i = 0; i < scriptBlocks.length; i++) {
+    let blocks = scriptBlocks[i].actors;
+    for (let j = 0; j < blocks.length; j++) {
+      let actor = blocks[i][0];
+      let position = blocks[i][1];
+      setTimeout(showPosition(actor, position), 5000);
+    }
+  }
+}
+
+function showPosition(actor, position) {
+  document.querySelector("#position" + position).innerHTML = actor;
+}
+
 /* UI functions above */
 
 // Adding example script blocking
@@ -186,7 +212,6 @@ function getBlocking() {
       const blocks = jsonResult[1];
 
       for (let i = 0; i < blocks.length; i++) {
-        console.log(blocks[i]);
         addBlockToScreen(
           script,
           blocks[i].start,
