@@ -64,6 +64,23 @@ function addBlockToScreen(scriptText, startChar, endChar, actors, positions) {
   blocks.appendChild(block);
 }
 
+// add "saved successfully" feedback
+function savedSuccess() {
+  document.querySelector("#feedback").innerHTML = "Saved successfully.";
+  document.querySelector("#feedback").setAttribute("style", "color: green");
+}
+
+// remove "saved successfully" feedback
+function removeSuccess() {
+  document.querySelector("#feedback").innerHTML = "";
+}
+
+// add feedback for 404 recources not found
+function showNotFound() {
+  document.querySelector("#feedback").innerHTML = "The script is not found.";
+  document.querySelector("#feedback").setAttribute("style", "color: red");
+}
+
 /* UI functions above */
 
 // Adding example script blocking
@@ -119,6 +136,7 @@ function formatPostBlocks(scriptBlocks) {
 }
 
 function getBlocking() {
+  removeSuccess();
   removeAllBlocks();
   const scriptNumber = scriptNumText.value;
 
@@ -142,6 +160,9 @@ function getBlocking() {
   // A 'fetch' AJAX call to the server.
   fetch(url)
     .then(res => {
+      if (res.status == 404) {
+        showNotFound();
+      }
       return res.json();
     })
     .then(jsonResult => {
@@ -178,6 +199,7 @@ function getBlocking() {
 }
 
 function changeScript() {
+  removeSuccess();
   // first check if the inputs are valid
   let scriptBlocks = getBlockingDetailsOnScreen();
   for (let i = 0; i < scriptBlocks.length; i++) {
@@ -227,6 +249,12 @@ function changeScript() {
     .then(jsonResult => {
       // Although this is a post request, sometimes you might return JSON as well
       console.log("Result:", jsonResult);
+      if (
+        jsonResult.scriptNum != "" &&
+        jsonResult.scriptBlocks[1].length != 0
+      ) {
+        savedSuccess();
+      }
     })
     .catch(error => {
       // if an error occured it will be logged to the JavaScript console here.

@@ -45,6 +45,12 @@ function getExampleBlock() {
     });
 }
 
+// add feedback for 404 recources not found
+function showNotFound() {
+  document.querySelector("#feedback").innerHTML = "The script is not found.";
+  document.querySelector("#feedback").setAttribute("style", "color: red");
+}
+
 // a helper function for checking validity of input
 function isNumeric(value) {
   return /^-{0,1}\d+$/.test(value);
@@ -73,9 +79,10 @@ function getBlocking() {
   // A 'fetch' AJAX call to the server.
   fetch(url)
     .then(res => {
-      //// Do not write any code here
+      if (res.status == 404) {
+        showNotFound();
+      }
       return res.json();
-      //// Do not write any code here
     })
     .then(jsonResult => {
       // This is where the JSON result (jsonResult) from the server can be accessed and used.
