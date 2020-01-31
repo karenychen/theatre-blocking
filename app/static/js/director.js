@@ -110,6 +110,10 @@ function isNumeric(value) {
   return /^-{0,1}\d+$/.test(value);
 }
 
+function isValidPosition(value) {
+  return parseInt(value) >= 1 && parseInt(value) <= 8;
+}
+
 function formatPostBlocks(scriptBlocks) {
   let returnData = [];
   let script = "";
@@ -188,7 +192,7 @@ function getBlocking() {
           blocks[i].start,
           blocks[i].end,
           blocks[i].actors,
-          blocks[i].positions === 0 ? "" : blocks[i].positions
+          blocks[i].positions
         );
       }
     })
@@ -205,8 +209,12 @@ function changeScript() {
   for (let i = 0; i < scriptBlocks.length; i++) {
     let actorBlocking = scriptBlocks[i].actors;
     for (let j = 0; j < actorBlocking.length; j++) {
-      if (!isNumeric(actorBlocking[j][1]) && actorBlocking[j][1] != "") {
-        alert("Please enter valid position numbers.");
+      if (
+        (!isNumeric(actorBlocking[j][1]) ||
+          !isValidPosition(actorBlocking[j][1])) &&
+        actorBlocking[j][1] != ""
+      ) {
+        alert("Please enter valid position numbers between 1 and 8.");
         return;
       }
     }
