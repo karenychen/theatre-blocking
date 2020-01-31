@@ -1,3 +1,6 @@
+# Deployment
+Our website is deployed [here](https://chenka51-linkexi1-theatre.herokuapp.com/).
+
 # docker
 
 To start:
@@ -105,7 +108,7 @@ As a director, I want to be able to modify the blockings I assigned, so that I c
 
 - Directors are able to modify a blocking to each actor at each line for all parts of the script
 
-As a director, I want to be able to view all actor's blocking in a specific script, so that I can get a better view of the entire visual on stage. 
+As a director, I want to be able to view all actor's blocking in a specific script, so that I can get a better understanding of the entire visual on stage. 
 
 - Directors are able to view all blockings of each actor.
 
