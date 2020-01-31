@@ -42,7 +42,7 @@ def load_scripts():
         for line in lines:
             # parse part number
             part = {}
-            part["part_num"] = line[:line.index(".")]
+            # part["part_num"] = line[:line.index(".")]
             line = line[line.index(".") + 2:]
             lst = line.split(", ")
             # parse start and end
@@ -58,7 +58,27 @@ def load_scripts():
             script["parts"].append(part)
         scripts.append(script)
 
-## overwrite a txt files
+## rewrite a txt files
+def write_scripts():
+    directory_in_str = "./app/script_data/"
+    directory = os.fsencode(directory_in_str)
+
+    # iterate through script_data
+    for file in os.listdir(directory):
+        filename = os.fsdecode(file)
+        fr = open(directory_in_str + filename)
+        lines = fr.readlines()
+        script_num = lines[0].strip()
+        for i in range(1, len(scripts)):
+            if script_num == scripts[i]["script_num"]:
+                counter = 1
+                for part in scripts[i]["parts"]:
+                    line = counter + ". " + part["start"] + ", " + part["end"]
+                    for j in range(len(part["actors"])):
+                        line += ", " + part["actors"][j] + "-" + part["positions"][j]
+                    line += "\n"
+                    counter += 1
+            
 
 
 ### DO NOT modify this route ###
@@ -87,7 +107,7 @@ def script(script_id):
     # right now, just sends the script id in the URL
     for i in range(1, len(scripts)):
         if int(scripts[i]["script_num"]) == script_id:
-            return jsonify([scripts[i]["script_text"], scripts[i]["parts"]])
+            return jsonify([scripts[i]["script_text"], scripts[i]["parts"], scripts[0]])
     abort(404)
 
 
@@ -97,7 +117,23 @@ def script(script_id):
 # of the script.
 @app.route('/script', methods=['POST'])
 def addBlocking():
-    # right now, just sends the original request json
+    script_num = request.json.script_num
+    new_script = request.json.scriptBlocks
+    new_parts = new_script[2]
+    
+    for i in range(1, len(scripts)):
+        if scripts[i]["script_num"] == script_num: # script number matches
+            for j in range(len(new_parts)): # iterater over new_parts and parts
+                actor_pos_lst = new_parts[i]["actors"]
+                new_actors = []
+                new_parts = []
+                for each actor_pos in actor_pos_lst:
+                    new_actors.append(actor_pos[0])
+                    new_parts.append(actor_pos[1])
+
+            
+
+
 
     return jsonify(request.json)
 
