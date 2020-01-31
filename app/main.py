@@ -92,7 +92,7 @@ def write_scripts():
                         if part["positions"][j] == "":
                             line += ", " + \
                                 str(part["actors"][j]) + "-0"
-                        else: 
+                        else:
                             line += ", " + \
                                 str(part["actors"][j]) + "-" + \
                                 str(part["positions"][j])
@@ -165,4 +165,4 @@ def addBlocking():
 
 if __name__ == "__main__":
     # Only for debugging while developing
-    app.run(host='0.0.0.0', debug=True, port=os.environ.get('PORT', 8848))
+    app.run(host='0.0.0.0', debug=False, port=os.environ.get('PORT', 8848))
