@@ -22,6 +22,55 @@ function addScriptPart(scriptText, startChar, endChar, position) {
   blocks.appendChild(block);
 }
 
+function visualize() {
+  let scriptBlocks = getBlockingDetailsOnScreen();
+
+  // check if there are valid script blocking info on screen before visualization
+  if (scriptBlocks.length === 0) {
+    alert("Please get valid script blocking information before visualization.");
+    return;
+  }
+  startVisualize(scriptBlocks);
+  setTimeout(() => {
+    clearPosition();
+  }, 2000 * scriptBlocks.length);
+}
+
+function startVisualize(scriptBlocks) {
+  clearPosition();
+  for (let i = 0; i < scriptBlocks.length; i++) {
+    (function() {
+      let k = i;
+      let blocks = scriptBlocks[k];
+      setTimeout(() => {
+        clearPosition();
+        showScriptLine(blocks.text);
+        let position = blocks.position;
+        let part = blocks.part;
+        showPosition(part, position);
+      }, 2000 * k);
+    })();
+  }
+}
+
+function showScriptLine(line) {
+  document.querySelector("#script-line").innerHTML = line;
+  console.log(line);
+}
+
+// show position of actors on the blocking visualization grids
+function showPosition(part, position) {
+  document.querySelector("#position" + position).innerHTML = "Part " + part;
+  console.log("#position" + position);
+}
+
+function clearPosition() {
+  for (let i = 1; i <= 8; i++) {
+    document.querySelector("#position" + i).innerHTML = "";
+  }
+  document.querySelector("#script-line").innerHTML = "";
+}
+
 // Function to add the example block (when clicking the example block button)
 function getExampleBlock() {
   const url = "/example";
@@ -43,6 +92,26 @@ function getExampleBlock() {
       // if an error occured it will be logged to the JavaScript console here.
       console.log("An error occured with fetch:", error);
     });
+}
+
+/* This function returns a JavaScript array with the information about blocking displayed
+in the browser window.*/
+function getBlockingDetailsOnScreen() {
+  // this array will hold
+  const allBlocks = [];
+
+  // go through all of the script parts and scrape the blocking informatio on the screen
+  for (let i = 0; i < blocks.children.length; i++) {
+    const block = {};
+    const blockElement = blocks.children[i];
+    block.part = i + 1;
+    block.text = blockElement.children[1].textContent;
+    block.position = blockElement.children[2].children[0].innerHTML;
+    allBlocks.push(block);
+  }
+
+  // Look in the JavaScript console to see the result of calling this function
+  return allBlocks;
 }
 
 // add feedback for 404 recources not found
