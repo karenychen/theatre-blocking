@@ -93,31 +93,6 @@ function isNumeric(value) {
   return /^-{0,1}\d+$/.test(value);
 }
 
-function formatPostBlocks(scriptBlocks) {
-  let returnData = [];
-  let script = "";
-  // get the full script line
-  scriptBlocks.map(part => {
-    script += part.text.replace(/"/g, "");
-  });
-  returnData.push(script);
-
-  let charIndex = 0;
-  let blocks = [];
-  for (let i = 0; i < scriptBlocks.length; i++) {
-    let part = scriptBlocks[i];
-    let text = part.text.replace(/"/g, "");
-    let partInfo = {};
-    partInfo.start = charIndex;
-    partInfo.end = charIndex + text.length - 1;
-    charIndex += text.length;
-    partInfo.actors = part.actors;
-    blocks.push(partInfo);
-  }
-  returnData.push(blocks);
-  return returnData;
-}
-
 function getBlocking() {
   removeAllBlocks();
   const scriptNumber = scriptNumText.value;
@@ -199,7 +174,7 @@ function changeScript() {
   let data = {
     scriptNum: getScriptNumber(),
     // What else do you need to send to the server?
-    scriptBlocks: formatPostBlocks(scriptBlocks)
+    scriptBlocks: getBlockingDetailsOnScreen()
   };
 
   // Create the request constructor with all the parameters we need
