@@ -83,12 +83,11 @@ function getBlocking() {
       // Use the JSON to add a script part
 
       const script = jsonResult[0];
+      console.log(script);
       const blocks = jsonResult[1];
       const actorIdMap = jsonResult[2];
-      const actorName = actorIdMap.actorNumber;
+      const actorName = actorIdMap[actorNumber];
       let actorPosition = 0;
-
-      addScriptPart(jsonResult[0], jsonResult[1], jsonResult[2], jsonResult[3]);
 
       for (let i = 0; i++; i < blocks.length) {
         let actors = blocks[i].actors;

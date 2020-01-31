@@ -135,7 +135,8 @@ function getBlocking() {
       const script = jsonResult[0];
       const blocks = jsonResult[1];
 
-      for (let i = 0; i++; i < blocks.length) {
+      for (let i = 0; i < blocks.length; i++) {
+        console.log(blocks[i]);
         addBlockToScreen(
           script,
           blocks[i].start,
