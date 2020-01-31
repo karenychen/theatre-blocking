@@ -141,7 +141,6 @@ def addBlocking():
     # load_scripts()
 
     for i in range(1, len(scripts)):  # iterate over scripts and search for matching script
-        print(scripts[i])
         if scripts[i]["script_num"] == script_num:  # script number matches
             parts = scripts[i]["parts"]
             for j in range(len(new_parts)):  # iterater over new_parts and parts
@@ -155,7 +154,6 @@ def addBlocking():
                 # assign new_actors and new_pos into parts
                 parts[j]["actors"] = new_actors
                 parts[j]["positions"] = new_pos
-    print(scripts)
     write_scripts()
     return jsonify(request.json)
 
