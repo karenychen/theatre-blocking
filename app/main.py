@@ -82,14 +82,12 @@ parse the text files and send the correct JSON.'''
 ## GET route for script and blocking info
 @app.route('/script/<int:script_id>')
 def script(script_id):
+    load_scripts()
     # right now, just sends the script id in the URL
     for i in range(1, len(scripts)):
-        if scripts[i]["script_num"] == script_id:
-            print(scripts[i]["script_text"])
-            print(scripts[i]["parts"])
+        if int(scripts[i]["script_num"]) == script_id:
             return jsonify([scripts[i]["script_text"], scripts[i]["parts"]])
-    # return None
-    abort(404)
+    # abort(404)
 
 
 ## POST route for replacing script blocking on server
@@ -99,15 +97,10 @@ def script(script_id):
 @app.route('/script', methods=['POST'])
 def addBlocking():
     # right now, just sends the original request json
-    request.json
-
     return jsonify(request.json)
 
 
 
 if __name__ == "__main__":
     # Only for debugging while developing
-    # load_scripts()
-    # print(scripts)
-    script("1")
-    app.run(host='0.0.0.0', debug=True, port=os.environ.get('PORT', 80))
+    app.run(host='0.0.0.0', debug=True, port=os.environ.get('PORT', 8848))
