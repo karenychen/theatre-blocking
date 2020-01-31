@@ -77,9 +77,9 @@ def write_scripts():
                 counter = 4
                 for part in scripts[i]["parts"]: # change all part lines in the file
                     # generate a new part line to write in the file
-                    line = counter + ". " + part["start"] + ", " + part["end"]
+                    line = str(counter) + ". " + str(part["start"]) + ", " + str(part["end"])
                     for j in range(len(part["actors"])):
-                        line += ", " + part["actors"][j] + "-" + part["positions"][j]
+                        line += ", " + str(part["actors"][j]) + "-" + str(part["positions"][j])
                     line += "\n"
                     lines[counter] = line # change part line
                     counter += 1
@@ -111,7 +111,6 @@ parse the text files and send the correct JSON.'''
 ## GET route for script and blocking info
 @app.route('/script/<int:script_id>')
 def script(script_id):
-    load_scripts()
     # right now, just sends the script id in the URL
     for i in range(1, len(scripts)):
         if int(scripts[i]["script_num"]) == script_id:
@@ -126,9 +125,10 @@ def script(script_id):
 @app.route('/script', methods=['POST'])
 def addBlocking():
     script_num = request.json.script_num
-    new_script = request.json.scriptBlocks
-    new_parts = new_script[2]
+    new_parts = request.json.scriptBlocks[2]
     
+    load_scripts()
+
     for i in range(1, len(scripts)): # iterate over scripts and search for matching script
         if scripts[i]["script_num"] == script_num: # script number matches
             parts = scripts[i]["parts"]
@@ -141,12 +141,10 @@ def addBlocking():
                     new_actors.append(actor_pos[0])
                     new_pos.append(actor_pos[1])
                 # assign new_actors and new_pos into parts
-                parts[j] = [new_actors, new_parts]
-            
-
+                parts[j]["actors"] = new_actors
+                parts[j]["positions"] = new_pos
+    write_scripts()
     return jsonify(request.json)
-
-
 
 if __name__ == "__main__":
     # Only for debugging while developing
