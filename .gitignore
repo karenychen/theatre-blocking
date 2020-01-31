@@ -21,3 +21,7 @@ htmlcov/
 .coverage
 .coverage.*
 *,cover
+
+.vscode
+app/get-pip.py
+
