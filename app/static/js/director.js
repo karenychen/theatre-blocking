@@ -119,6 +119,7 @@ function formatPostBlocks(scriptBlocks) {
 }
 
 function getBlocking() {
+  removeAllBlocks();
   const scriptNumber = scriptNumText.value;
 
   if (!isNumeric(scriptNumber)) {
@@ -136,7 +137,6 @@ function getBlocking() {
   // and use the functions above to add the elements to the browser window.
   // (similar to actor.js)
 
-  removeAllBlocks();
   const url = "/script/" + scriptNumber;
 
   // A 'fetch' AJAX call to the server.
