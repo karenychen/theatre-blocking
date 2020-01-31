@@ -68,21 +68,21 @@ function addBlockToScreen(scriptText, startChar, endChar, actors, positions) {
 
 // Adding example script blocking
 // (the blocks should be removed from the screen when getting a script from the server)
-// addBlockToScreen(
-//   `That's it Claudius, I'm leaving!Fine! Oh..he left already..`,
-//   0,
-//   31,
-//   ["Hamlet", "Claudius"],
-//   [5, 2]
-// );
-// addBlockToScreen(
-//   `That's it Claudius, I'm leaving!Fine! Oh..he left already..`,
-//   32,
-//   58,
-//   ["Hamlet", "Claudius"],
-//   ["", 3]
-// );
-// setScriptNumber("example");
+addBlockToScreen(
+  `That's it Claudius, I'm leaving!Fine! Oh..he left already..`,
+  0,
+  31,
+  ["Hamlet", "Claudius"],
+  [5, 2]
+);
+addBlockToScreen(
+  `That's it Claudius, I'm leaving!Fine! Oh..he left already..`,
+  32,
+  58,
+  ["Hamlet", "Claudius"],
+  ["", 3]
+);
+setScriptNumber("example");
 
 //////////////
 // The two functions below should make calls to the server
@@ -91,6 +91,31 @@ function addBlockToScreen(scriptText, startChar, endChar, actors, positions) {
 // a helper function for checking validity of input
 function isNumeric(value) {
   return /^-{0,1}\d+$/.test(value);
+}
+
+function formatPostBlocks(scriptBlocks) {
+  let returnData = [];
+  let script = "";
+  // get the full script line
+  scriptBlocks.map(part => {
+    script += part.text.replace(/"/g, "");
+  });
+  returnData.push(script);
+
+  let charIndex = 0;
+  let blocks = [];
+  for (let i = 0; i < scriptBlocks.length; i++) {
+    let part = scriptBlocks[i];
+    let text = part.text.replace(/"/g, "");
+    let partInfo = {};
+    partInfo.start = charIndex;
+    partInfo.end = charIndex + text.length - 1;
+    charIndex += text.length;
+    partInfo.actors = part.actors;
+    blocks.push(partInfo);
+  }
+  returnData.push(blocks);
+  return returnData;
 }
 
 function getBlocking() {
@@ -174,7 +199,7 @@ function changeScript() {
   let data = {
     scriptNum: getScriptNumber(),
     // What else do you need to send to the server?
-    scriptBlocks: getBlockingDetailsOnScreen()
+    scriptBlocks: formatPostBlocks(scriptBlocks)
   };
 
   // Create the request constructor with all the parameters we need
