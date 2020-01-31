@@ -82,7 +82,7 @@ def write_scripts():
                 # change all part lines in the file
                 for part in scripts[i]["parts"]:
                     # generate a new part line to write in the file
-                    line = str(counter) + ". " + \
+                    line = str(counter - 3) + ". " + \
                         str(part["start"]) + ", " + str(part["end"])
                     for j in range(len(part["actors"])):
                         line += ", " + \
@@ -155,6 +155,7 @@ def addBlocking():
                 # assign new_actors and new_pos into parts
                 parts[j]["actors"] = new_actors
                 parts[j]["positions"] = new_pos
+    print(scripts)
     write_scripts()
     return jsonify(request.json)
 
