@@ -57,7 +57,10 @@ def load_scripts():
                 actor_pos = lst[i].split("-")
                 # parse actor and position
                 part["actors"].append(actor_pos[0].strip())
-                part["positions"].append(actor_pos[1].strip())
+                if actor_pos[1].strip() == "0":
+                    part["positions"].append("")
+                else:
+                    part["positions"].append(actor_pos[1].strip())
             script["parts"].append(part)
         scripts.append(script)
 
