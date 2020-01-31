@@ -8,11 +8,13 @@ CORS(app)
 
 # This is your 'database' of scripts with their blocking info.
 # You can store python dictionaries in the format you decided on for your JSON
-   # parse the text files in script_data to create these objects - do not send the text
-   # files to the client! The server should only send structured data in the sallest format necessary.
+# parse the text files in script_data to create these objects - do not send the text
+# files to the client! The server should only send structured data in the sallest format necessary.
 scripts = []
 
-## load actor.csv and all script_data into scripts
+# load actor.csv and all script_data into scripts
+
+
 def load_scripts():
     # parse actors.csv into a dictionary
     actors_file = open("./app/actors.csv")
@@ -22,7 +24,7 @@ def load_scripts():
         actor = line.split(",")
         actors_dict[actor[0].strip()] = actor[1].strip()
     scripts.append(actors_dict)
-    
+
     directory_in_str = "./app/script_data/"
     directory = os.fsencode(directory_in_str)
 
@@ -58,7 +60,9 @@ def load_scripts():
             script["parts"].append(part)
         scripts.append(script)
 
-## rewrite a txt files
+# rewrite a txt files
+
+
 def write_scripts():
     directory_in_str = "./app/script_data/"
     directory = os.fsencode(directory_in_str)
@@ -70,23 +74,26 @@ def write_scripts():
         fr = open(directory_in_str + filename)
         lines = fr.readlines()
         fr.close()
-        script_num = lines[0].strip() # get script_num
+        script_num = lines[0].strip()  # get script_num
         # iterate over scripts and searches for matching script
         for i in range(1, len(scripts)):
-            if script_num == scripts[i]["script_num"]: # script_num matches
+            if script_num == scripts[i]["script_num"]:  # script_num matches
                 counter = 4
-                for part in scripts[i]["parts"]: # change all part lines in the file
+                # change all part lines in the file
+                for part in scripts[i]["parts"]:
                     # generate a new part line to write in the file
-                    line = str(counter) + ". " + str(part["start"]) + ", " + str(part["end"])
+                    line = str(counter) + ". " + \
+                        str(part["start"]) + ", " + str(part["end"])
                     for j in range(len(part["actors"])):
-                        line += ", " + str(part["actors"][j]) + "-" + str(part["positions"][j])
+                        line += ", " + \
+                            str(part["actors"][j]) + "-" + \
+                            str(part["positions"][j])
                     line += "\n"
-                    lines[counter] = line # change part line
+                    lines[counter] = line  # change part line
                     counter += 1
                 fw = open(directory_in_str + filename, "wt")
                 fw.writelines(lines)
                 fw.close()
-            
 
 
 ### DO NOT modify this route ###
@@ -108,17 +115,17 @@ def example_block():
 ''' Modify the routes below accordingly to 
 parse the text files and send the correct JSON.'''
 
-## GET route for script and blocking info
+# GET route for script and blocking info
 @app.route('/script/<int:script_id>')
 def script(script_id):
-    # right now, just sends the script id in the URL
+    load_scripts()
     for i in range(1, len(scripts)):
         if int(scripts[i]["script_num"]) == script_id:
             return jsonify([scripts[i]["script_text"], scripts[i]["parts"], scripts[0]])
     abort(404)
 
 
-## POST route for replacing script blocking on server
+# POST route for replacing script blocking on server
 # Note: For the purposes of this assignment, we are using POST to replace an entire script.
 # Other systems might use different http verbs like PUT or PATCH to replace only part
 # of the script.
@@ -126,13 +133,13 @@ def script(script_id):
 def addBlocking():
     script_num = request.json.script_num
     new_parts = request.json.scriptBlocks[2]
-    
+
     load_scripts()
 
-    for i in range(1, len(scripts)): # iterate over scripts and search for matching script
-        if scripts[i]["script_num"] == script_num: # script number matches
+    for i in range(1, len(scripts)):  # iterate over scripts and search for matching script
+        if scripts[i]["script_num"] == script_num:  # script number matches
             parts = scripts[i]["parts"]
-            for j in range(len(new_parts)): # iterater over new_parts and parts
+            for j in range(len(new_parts)):  # iterater over new_parts and parts
                 actor_pos_lst = new_parts[j]["actors"]
                 # create and fill in new_actors and new_parts
                 new_actors = []
@@ -145,6 +152,7 @@ def addBlocking():
                 parts[j]["positions"] = new_pos
     write_scripts()
     return jsonify(request.json)
+
 
 if __name__ == "__main__":
     # Only for debugging while developing
