@@ -63,21 +63,29 @@ def write_scripts():
     directory_in_str = "./app/script_data/"
     directory = os.fsencode(directory_in_str)
 
-    # iterate through script_data
+    # iterate through script_data files
     for file in os.listdir(directory):
+        # opens and reads all lines to a file
         filename = os.fsdecode(file)
         fr = open(directory_in_str + filename)
         lines = fr.readlines()
-        script_num = lines[0].strip()
+        fr.close()
+        script_num = lines[0].strip() # get script_num
+        # iterate over scripts and searches for matching script
         for i in range(1, len(scripts)):
-            if script_num == scripts[i]["script_num"]:
-                counter = 1
-                for part in scripts[i]["parts"]:
+            if script_num == scripts[i]["script_num"]: # script_num matches
+                counter = 4
+                for part in scripts[i]["parts"]: # change all part lines in the file
+                    # generate a new part line to write in the file
                     line = counter + ". " + part["start"] + ", " + part["end"]
                     for j in range(len(part["actors"])):
                         line += ", " + part["actors"][j] + "-" + part["positions"][j]
                     line += "\n"
+                    lines[counter] = line # change part line
                     counter += 1
+                fw = open(directory_in_str + filename, "wt")
+                fw.writelines(lines)
+                fw.close()
             
 
 
@@ -126,14 +134,15 @@ def addBlocking():
             parts = scripts[i]["parts"]
             for j in range(len(new_parts)): # iterater over new_parts and parts
                 actor_pos_lst = new_parts[j]["actors"]
+                # create and fill in new_actors and new_parts
                 new_actors = []
                 new_pos = []
-                # fill in new_actors and new_parts
                 for actor_pos in actor_pos_lst:
                     new_actors.append(actor_pos[0])
                     new_pos.append(actor_pos[1])
                 # assign new_actors and new_pos into parts
                 parts[j] = [new_actors, new_parts]
+            
 
     return jsonify(request.json)
 
