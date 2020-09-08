@@ -1,5 +1,5 @@
 # Deployment
-Our website is deployed [here](https://chenka51-linkexi1-theatre.herokuapp.com/).
+Our website is deployed [here](https://chenka51-linkexi1-theatre.herokuapp.com/actor.html).
 
 # docker
 
